@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Famous Art Gallery</title>
+    <link rel="shortcut icon" href="img/logo.jpeg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+            overflow-x: hidden;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-subtitle {
+            color: #a8a8a8;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .carousel-container {
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+        }
+
+        .carousel-wrapper {
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .card {
+            background-color: #2d2d2d;
+            border-radius: 15px;
+            overflow: hidden;
+            min-width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .card-image {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 450px;
+            width: 100%;
+        }
+
+        .card-1 .card-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1200px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg');
+        }
+
+        .card-2 .card-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/1200px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg');
+        }
+
+        .card-3 .card-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1200px-Tsunami_by_hokusai_19th_century.jpg');
+        }
+
+        .card-4 .card-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_Scream.jpg/1200px-The_Scream.jpg');
+        }
+
+        .card-5 .card-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Jan_Vermeer_van_Delft_007.jpg/1200px-Jan_Vermeer_van_Delft_007.jpg');
+        }
+
+        .card-6 .card-image {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/The_Birth_of_Venus_by_Sandro_Botticelli.jpg/1200px-The_Birth_of_Venus_by_Sandro_Botticelli.jpg');
+        }
+
+        .card-content {
+            padding: 2rem;
+            background: linear-gradient(135deg, #2d2d2d 0%, #1f1f1f 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .content-header {
+            margin-bottom: 0;
+        }
+
+        .title-section {
+            flex: 1;
+        }
+
+        .category {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.7rem;
+            color: #d4af37;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .product-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            line-height: 1.1;
+            color: #f5f5f5;
+            margin-bottom: 0.75rem;
+        }
+
+        .artist {
+            font-size: 0.95rem;
+            color: #d4af37;
+            margin-bottom: 1.25rem;
+            font-style: italic;
+        }
+
+        .description {
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: #c9c9c9;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card {
+            padding: 0.75rem 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid #d4af37;
+            transition: transform 0.3s, background-color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-card:hover {
+            transform: translateX(5px);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .info-card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #a8a8a8;
+        }
+
+        .info-card-value {
+            font-size: 0.85rem;
+            color: #f5f5f5;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #c4941f 100%);
+            color: #1a1a1a;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            display: block;
+            width: 100%;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Carousel Navigation */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(212, 175, 55, 0.9);
+            border: none;
+            color: #1a1a1a;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-nav:hover {
+            background: rgba(212, 175, 55, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: -25px;
+        }
+
+        .carousel-nav.next {
+            right: -25px;
+        }
+
+        /* Carousel Indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(212, 175, 55, 0.3);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .indicator.active {
+            background-color: #d4af37;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        .indicator:hover {
+            background-color: rgba(212, 175, 55, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .gallery-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .gallery-title {
+                font-size: 1.8rem;
+            }
+
+            .gallery-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .card {
+                grid-template-columns: 1fr;
+            }
+
+            .card-image {
+                min-height: 250px;
+            }
+
+            .card-content {
+                padding: 1.5rem;
+            }
+
+            .product-title {
+                font-size: 1.5rem;
+            }
+
+            .artist {
+                font-size: 0.95rem;
+            }
+
+            .description {
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+
+            .info-card {
+                padding: 1rem;
+            }
+
+            .info-card-label {
+                font-size: 0.65rem;
+            }
+
+            .info-card-value {
+                font-size: 0.95rem;
+            }
+
+            .view-btn {
+                padding: 1rem 2rem;
+                font-size: 0.85rem;
+                width: 100%;
+            }
+
+            .carousel-nav {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1rem;
+            }
+
+            .carousel-nav.prev {
+                left: 5px;
+            }
+
+            .carousel-nav.next {
+                right: 5px;
+            }
+
+            .carousel-indicators {
+                margin-top: 1rem;
+                gap: 6px;
+            }
+
+            .indicator {
+                width: 8px;
+                height: 8px;
+            }
+
+            .indicator.active {
+                width: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0.25rem;
+            }
+
+            .gallery-title {
+                font-size: 1.5rem;
+            }
+
+            .gallery-subtitle {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+
+            .card-image {
+                height: 200px;
+            }
+
+            .card-content {
+                padding: 1rem;
+            }
+
+            .category {
+                font-size: 0.6rem;
+                letter-spacing: 2px;
+            }
+
+            .product-title {
+                font-size: 1.3rem;
+            }
+
+            .artist {
+                font-size: 0.85rem;
+            }
+
+            .description {
+                font-size: 0.85rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-header">
+        <h1 class="gallery-title">World Famous Art Gallery</h1>
+        <p class="gallery-subtitle">Explore Masterpieces Through History</p>
+    </div>
+
+    <div class="carousel-container">
+        <button class="carousel-nav prev" onclick="moveCarousel(-1)">‹</button>
+        <button class="carousel-nav next" onclick="moveCarousel(1)">›</button>
+        
+        <div class="carousel-wrapper">
+            <div class="carousel" id="carousel">
+                <!-- Card 1: The Starry Night -->
+                <div class="card card-1">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="content-header">
+                            <div class="title-section">
+                                <p class="category">Post-Impressionism</p>
+                                <h1 class="product-title">The Starry Night</h1>
+                                <p class="artist">Vincent van Gogh</p>
+                            </div>
+                        </div>
+                        <p class="description">One of the most recognized pieces in modern art, The Starry Night depicts a swirling night sky over a small French village. Painted from memory during van Gogh's stay at the Saint-Paul-de-Mausole asylum in Saint-Rémy-de-Provence, this masterpiece showcases the artist's unique style of bold, dramatic brushstrokes and vivid imagination. The cypress tree in the foreground and the vibrant stars create a dreamlike atmosphere that has captivated viewers for over a century.</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-label">Year Created</div>
+                                <div class="info-card-value">1889</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Medium</div>
+                                <div class="info-card-value">Oil on Canvas</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Location</div>
+                                <div class="info-card-value">MoMA, New York</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Dimensions</div>
+                                <div class="info-card-value">73.7 × 92.1 cm</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-btn">Explore Artwork</button>
+                    </div>
+                </div>
+
+                <!-- Card 2: Mona Lisa -->
+                <div class="card card-2">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="content-header">
+                            <div class="title-section">
+                                <p class="category">Renaissance</p>
+                                <h1 class="product-title">Mona Lisa</h1>
+                                <p class="artist">Leonardo da Vinci</p>
+                            </div>
+                        </div>
+                        <p class="description">The world's most famous painting, the Mona Lisa captivates with her enigmatic smile and mysterious gaze. Da Vinci's masterful use of sfumato technique creates a dreamlike quality, while the subject's expression has fascinated viewers for centuries. The portrait is believed to be of Lisa Gherardini, wife of a Florentine merchant. Its fame stems not only from the technical mastery but also from the countless interpretations of her expression, making it the most valuable and visited artwork in the world.</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-label">Year Created</div>
+                                <div class="info-card-value">1503-1519</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Medium</div>
+                                <div class="info-card-value">Oil on Poplar</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Location</div>
+                                <div class="info-card-value">Louvre, Paris</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Dimensions</div>
+                                <div class="info-card-value">77 × 53 cm</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-btn">Explore Artwork</button>
+                    </div>
+                </div>
+
+                <!-- Card 3: The Great Wave -->
+                <div class="card card-3">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="content-header">
+                            <div class="title-section">
+                                <p class="category">Ukiyo-e</p>
+                                <h1 class="product-title">The Great Wave off Kanagawa</h1>
+                                <p class="artist">Katsushika Hokusai</p>
+                            </div>
+                        </div>
+                        <p class="description">This iconic Japanese woodblock print depicts an enormous wave threatening boats off the coast of Kanagawa. With Mount Fuji visible in the background, Hokusai brilliantly captures the power and beauty of nature in a single, dynamic composition. The print's innovative use of Prussian blue pigment and its bold composition revolutionized Japanese art and profoundly influenced Western artists including Vincent van Gogh and Claude Monet, becoming one of the most recognizable images in world art.</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-label">Year Created</div>
+                                <div class="info-card-value">1830-1833</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Medium</div>
+                                <div class="info-card-value">Woodblock Print</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Location</div>
+                                <div class="info-card-value">Multiple Collections</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Dimensions</div>
+                                <div class="info-card-value">25 × 37 cm</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-btn">Explore Artwork</button>
+                    </div>
+                </div>
+
+                <!-- Card 4: The Scream -->
+                <div class="card card-4">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="content-header">
+                            <div class="title-section">
+                                <p class="category">Expressionism</p>
+                                <h1 class="product-title">The Scream</h1>
+                                <p class="artist">Edvard Munch</p>
+                            </div>
+                        </div>
+                        <p class="description">An iconic symbol of modern anxiety and existential dread, The Scream depicts a figure with an agonized expression against a tumultuous orange sky. Munch created this powerful work to represent "the scream of nature," inspired by a walk during which he experienced overwhelming anxiety. The swirling sky and distorted landscape capture universal human emotions of fear and isolation in a deeply personal and revolutionary style that pioneered Expressionism and continues to resonate with contemporary audiences.</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-label">Year Created</div>
+                                <div class="info-card-value">1893</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Medium</div>
+                                <div class="info-card-value">Oil & Pastel</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Location</div>
+                                <div class="info-card-value">National Gallery, Oslo</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Dimensions</div>
+                                <div class="info-card-value">91 × 73.5 cm</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-btn">Explore Artwork</button>
+                    </div>
+                </div>
+
+                <!-- Card 5: Girl with a Pearl Earring -->
+                <div class="card card-5">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="content-header">
+                            <div class="title-section">
+                                <p class="category">Dutch Golden Age</p>
+                                <h1 class="product-title">Girl with a Pearl Earring</h1>
+                                <p class="artist">Johannes Vermeer</p>
+                            </div>
+                        </div>
+                        <p class="description">Often called the "Dutch Mona Lisa," this captivating portrait features a young woman wearing an exotic turban and large pearl earring. Vermeer's masterful treatment of light and subtle color palette create an intimate moment frozen in time, with the subject's enigmatic gaze drawing viewers into her world. The painting is a tronie, a Dutch portrait type focusing on facial expression rather than identity. The luminous pearl and the girl's direct yet mysterious look have made this one of the most beloved portraits in art history.</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-label">Year Created</div>
+                                <div class="info-card-value">1665</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Medium</div>
+                                <div class="info-card-value">Oil on Canvas</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Location</div>
+                                <div class="info-card-value">Mauritshuis, The Hague</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Dimensions</div>
+                                <div class="info-card-value">44.5 × 39 cm</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-btn">Explore Artwork</button>
+                    </div>
+                </div>
+
+                <!-- Card 6: The Birth of Venus -->
+                <div class="card card-6">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="content-header">
+                            <div class="title-section">
+                                <p class="category">Early Renaissance</p>
+                                <h1 class="product-title">The Birth of Venus</h1>
+                                <p class="artist">Sandro Botticelli</p>
+                            </div>
+                        </div>
+                        <p class="description">This mythological masterpiece depicts the goddess Venus emerging from the sea as a fully grown woman, arriving at the shore on a shell. Botticelli's graceful composition, flowing lines, and ethereal beauty exemplify Renaissance ideals of harmony and proportion. The painting represents both classical mythology and Neo-Platonic philosophy, celebrating divine love and beauty. Created for the Medici family, it showcases Botticelli's unique linear style and remains one of the most celebrated representations of classical mythology in Western art.</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-label">Year Created</div>
+                                <div class="info-card-value">1484-1486</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Medium</div>
+                                <div class="info-card-value">Tempera on Canvas</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Location</div>
+                                <div class="info-card-value">Uffizi Gallery, Florence</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-label">Dimensions</div>
+                                <div class="info-card-value">172.5 × 278.9 cm</div>
+                            </div>
+                        </div>
+                        
+                        <button class="view-btn">Explore Artwork</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-indicators">
+            <button class="indicator active" onclick="goToSlide(0)"></button>
+            <button class="indicator" onclick="goToSlide(1)"></button>
+            <button class="indicator" onclick="goToSlide(2)"></button>
+            <button class="indicator" onclick="goToSlide(3)"></button>
+            <button class="indicator" onclick="goToSlide(4)"></button>
+            <button class="indicator" onclick="goToSlide(5)"></button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 6;
+        const carousel = document.getElementById('carousel');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function updateCarousel() {
+            carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function moveCarousel(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            } else if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Auto-advance carousel every 5 seconds
+        setInterval(() => {
+            moveCarousel(1);
+        }, 5000);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                moveCarousel(-1);
+            } else if (e.key === 'ArrowRight') {
+                moveCarousel(1);
+            }
+        });
+    </script>
+</body>
+</html>
